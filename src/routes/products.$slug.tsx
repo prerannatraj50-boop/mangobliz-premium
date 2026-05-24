@@ -105,14 +105,14 @@ function ProductDetail() {
           <div className="mt-6">
             <div className="font-semibold mb-2">Taste notes</div>
             <div className="flex flex-wrap gap-2">
-              {p.notes.map((n) => <span key={n} className="rounded-full bg-muted px-3 py-1 text-xs font-medium">{n}</span>)}
+              {p.notes.map((n: string) => <span key={n} className="rounded-full bg-muted px-3 py-1 text-xs font-medium">{n}</span>)}
             </div>
           </div>
 
           <div className="mt-5">
             <div className="font-semibold mb-2">Best for</div>
             <div className="flex flex-wrap gap-2">
-              {p.usage.map((n) => <span key={n} className="rounded-full bg-[var(--cream)] text-[var(--leaf)] px-3 py-1 text-xs font-semibold">{n}</span>)}
+              {p.usage.map((n: string) => <span key={n} className="rounded-full bg-[var(--cream)] text-[var(--leaf)] px-3 py-1 text-xs font-semibold">{n}</span>)}
             </div>
           </div>
 
