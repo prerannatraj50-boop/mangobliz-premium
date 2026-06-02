@@ -98,36 +98,56 @@ git push -u origin main
 
 ---
 
-## 🌐 Deployment
+## 🌐 GitHub Pages Deployment
 
-This project produces a standard production build (`npm run build`) that can be hosted on any modern platform:
+This repo is configured for GitHub Pages with custom domain support for `mangobliz.com`.
 
-- **Vercel** (recommended): Import the GitHub repo → framework auto-detected → Deploy.
-- **Netlify**: Build command `npm run build` · publish directory `dist`.
-- **Cloudflare Pages**: Build command `npm run build` · output `dist`.
+### Automatic deployment
 
-The included router config handles deep links and refresh on every hosting provider — no `_redirects` file needed.
+Push to `main` and GitHub Actions will build the site and publish `dist/client` to the `gh-pages` branch.
+
+1. In GitHub, open **Settings → Pages**.
+2. Set **Source** to **Deploy from a branch**.
+3. Set **Branch** to `gh-pages` and **Folder** to `/ (root)`.
+4. Save.
+5. After the workflow finishes, the site is available at:
+   - `https://<your-github-username>.github.io/<repo-name>/` before the custom domain is active
+   - `https://mangobliz.com` after DNS is connected
+
+### Manual deployment
+
+```bash
+npm install
+npm run deploy
+```
+
+The build script prepares GitHub Pages files automatically:
+
+- `CNAME` for `mangobliz.com`
+- `.nojekyll` so assets are served correctly
+- `404.html` fallbacks so refresh/direct route access does not show the GitHub Pages 404 screen
 
 ---
 
-## 🌍 Connecting `mangobliz.com`
+## 🌍 Connecting `mangobliz.com` on GitHub Pages
 
-1. **Buy / use your domain** (Namecheap, GoDaddy, Google Domains, etc.).
-2. **Add the domain in your hosting dashboard** (Vercel/Netlify/Cloudflare → Settings → Domains → Add `mangobliz.com` and `www.mangobliz.com`).
-3. **Add DNS records at your registrar**:
+1. In GitHub, open **Settings → Pages → Custom domain**.
+2. Enter `mangobliz.com` and save.
+3. Enable **Enforce HTTPS** after GitHub verifies the domain and provisions SSL.
+4. Add these DNS records at your domain registrar:
 
-   | Type  | Name | Value                          |
-   |-------|------|--------------------------------|
-   | A     | @    | (IP given by your host)        |
-   | CNAME | www  | `cname.your-host.com`          |
+   | Type  | Name | Value                  |
+   |-------|------|------------------------|
+   | A     | @    | `185.199.108.153`      |
+   | A     | @    | `185.199.109.153`      |
+   | A     | @    | `185.199.110.153`      |
+   | A     | @    | `185.199.111.153`      |
+   | CNAME | www  | `<username>.github.io` |
 
-   On Vercel for example:
-   - `A` `@` → `76.76.21.21`
-   - `CNAME` `www` → `cname.vercel-dns.com`
+5. For `www.mangobliz.com`, keep the `www` CNAME pointing to your GitHub Pages host. GitHub Pages will serve the custom domain and HTTPS once verification completes.
+6. Remove old/conflicting A, AAAA, or CNAME records for `@` or `www` if they point to another host.
 
-4. **Wait for DNS propagation** (5 min – 24 hr). Use [dnschecker.org](https://dnschecker.org) to verify.
-5. **SSL** is auto-provisioned (Let's Encrypt) by all major hosts — usually within a few minutes after DNS resolves.
-6. **Domain verification**: your host will show a green "Valid configuration" once both `mangobliz.com` and `www.mangobliz.com` resolve.
+DNS propagation can take 5 minutes to 24 hours. SSL is issued automatically by GitHub Pages after DNS is correct.
 
 ---
 
