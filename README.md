@@ -1,4 +1,4 @@
-# MangoBliz 🥭
+# MangoBliz 🥭 — deployed to mangobliz.com via GitHub Pages
 
 > Fresh Mangoes. Real Taste. — Premium mango e-commerce site for Bangalore.
 
