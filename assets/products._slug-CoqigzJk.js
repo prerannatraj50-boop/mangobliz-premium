@@ -1,0 +1,1 @@
+import{j as e}from"./index-QHnqhizi.js";const t=({error:o})=>e.jsx("div",{className:"container mx-auto px-5 py-24 text-center",children:e.jsxs("p",{children:["Something went wrong: ",o.message]})});export{t as errorComponent};
