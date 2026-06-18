@@ -1,43 +1,27 @@
 ## Goal
-Deploy the project to GitHub Pages at `mangobliz.com` using the GitHub repo already connected to this Lovable project.
+Deploy the project to **GitHub Pages on the default `*.github.io` URL** — no custom domain. Lovable bot handles the push; GitHub Actions builds and publishes.
 
-## Important limitation (please read)
-GitHub Pages only serves **static files** — it cannot run server code. This app is built with TanStack Start, which supports server functions (SSR / API endpoints). On GitHub Pages:
-- Static pages and client-side navigation will work.
-- Any server function or `/api/*` route will NOT work.
-- If you later add login, database calls from the server, payments, emails, etc., they will be broken on GitHub Pages.
+## Heads-up
+GitHub Pages is **static only**. The homepage, products, blog, FAQ, contact, etc. all work. Any future login, database, payments, or `/api/*` routes will not work there. Lovable hosting supports the full app if you change your mind.
 
-For a fully working site, Lovable hosting + custom domain is the recommended path (1-click, free SSL, server features work). You can still keep GitHub connected. If you want to switch later, just say so.
+## Changes I'll make in build mode
 
-Proceeding with GitHub Pages as you asked.
+1. **Remove the custom-domain wiring** so GitHub serves on `<username>.github.io/<repo>` cleanly:
+   - Delete `public/CNAME` and the root `CNAME` file.
+   - Remove the `cname: mangobliz.com` line from `.github/workflows/deploy.yml`.
+   - Remove the CNAME copy step in `scripts/prepare-github-pages.mjs`.
+   - Trim the mangobliz / custom-domain sections from `README.md`.
 
-## Plan
+2. **Set Vite base path** so assets resolve under `/<repo-name>/` on `<username>.github.io/<repo>`:
+   - Add `vite: { base: '/<repo-name>/' }` to `vite.config.ts` (I'll fill in the repo name once you give it, or default to the Lovable project slug).
 
-1. **Verify deploy workflow**
-   - Confirm `.github/workflows/deploy.yml` (created earlier) is correct for a static build and pushes the `dist/` output to the `gh-pages` branch.
-   - Confirm `public/CNAME` contains `mangobliz.com` and `public/404.html` exists (SPA fallback for deep links).
-   - Confirm `scripts/prepare-github-pages.mjs` runs after build.
+3. **Trigger the deploy** — one tiny commit; Lovable auto-pushes to GitHub; Actions runs `deploy.yml` and publishes to the `gh-pages` branch (~2-3 min).
 
-2. **Trigger the first deploy**
-   - The workflow runs automatically on push to `main`. Since the repo is already connected, I'll make a tiny commit (touch a comment) so GitHub Actions kicks off a build.
+## What you do once in GitHub
+- Repo → **Settings → Pages** → Source: **Deploy from a branch** → Branch: **`gh-pages`** / **`/ (root)`** → Save.
+- Wait ~1 min. Site goes live at `https://<your-github-username>.github.io/<repo-name>/`.
+- No DNS, no domain config.
 
-3. **Tell you what to click in GitHub** (one-time settings):
-   - Repo → **Settings → Pages** → Source: **Deploy from a branch** → Branch: **gh-pages / root** → Save.
-   - Repo → **Settings → Pages → Custom domain**: enter `mangobliz.com` → Save → tick **Enforce HTTPS** once available.
-
-4. **DNS at your domain registrar** (one-time):
-   - Add four A records for `@` pointing to GitHub Pages IPs:
-     `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - Add a CNAME for `www` → `<your-github-username>.github.io`
-   - Wait for DNS to propagate (minutes to a few hours).
-
-5. **Verify**
-   - Watch the Actions tab in GitHub for a green checkmark.
-   - Visit `https://mangobliz.com` — should load the homepage.
-   - Click around to confirm internal navigation works.
-
-## What I need from you before I implement
-- Confirm the GitHub username/org the repo is under (so I can give exact CNAME value for `www`).
-- Confirm you understand the SSR limitation above and want to proceed with GitHub Pages anyway.
-
-Once you confirm, switch me to Build mode and I'll execute steps 1–2 and give you the exact GitHub + DNS clicks for steps 3–4.
+## What I need from you
+- The **GitHub repo name** (and username/org) so I can set the correct Vite `base`. Without the right base, CSS/JS 404s on the published site.
+- Then say "go" and I'll execute.
