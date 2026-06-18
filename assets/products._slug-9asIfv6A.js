@@ -1,0 +1,1 @@
+import{j as n,L as o}from"./index-B0tU5yeT.js";const e=()=>n.jsxs("div",{className:"container mx-auto px-5 py-24 text-center",children:[n.jsx("h1",{className:"font-display text-3xl font-bold",children:"Mango not found"}),n.jsx(o,{to:"/products",className:"mt-4 inline-block underline",children:"Back to all mangoes"})]});export{e as notFoundComponent};

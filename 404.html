@@ -2,10 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0;url=/" />
     <title>MangoBliz</title>
+    <script>
+      // GitHub Pages SPA fallback: rewrite deep links to the SPA root while
+      // preserving the requested path so the client router can pick it up.
+      (function () {
+        var path = window.location.pathname + window.location.search + window.location.hash;
+        sessionStorage.setItem('spa-redirect', path);
+        window.location.replace('./');
+      })();
+    </script>
   </head>
-  <body>
-    <script>window.location.replace('/');</script>
-  </body>
+  <body></body>
 </html>
