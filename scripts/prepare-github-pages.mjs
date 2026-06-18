@@ -28,7 +28,7 @@ const copyHtmlFallbacks = (dir) => {
   }
 };
 
-copyIfExists('CNAME', join(clientDir, 'CNAME'));
+
 copyIfExists(join(clientDir, 'index.html'), join(clientDir, '404.html'));
 copyHtmlFallbacks(clientDir);
 writeFileSync(join(clientDir, '.nojekyll'), '');
